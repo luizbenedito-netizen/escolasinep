@@ -27,9 +27,7 @@ db.sqlite3
 .env
 
 # Cache do Django
-/static/
 media/
-
 # IDEs / editores
 .vscode/
 .idea/
