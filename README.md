@@ -102,9 +102,9 @@ npm install
 
 ### 4️⃣ Configurar o Banco de Dados (PostgreSQL)
 
-- Criar um banco de dados no PostgreSQL
-- Importar o arquivo de banco de dados fornecido (estrutura + dados)
-- A importação pode ser feita via **PgAdmin** utilizando a opção de *Restore*
+- Crie um banco de dados no PostgreSQL.
+- Importe o arquivo de banco de dados fornecido, localizado em `bd/bd.sql` (contendo a estrutura e os dados).
+- A importação pode ser feita utilizando o **PgAdmin** através da opção *Restore*.
 
 ---
 
