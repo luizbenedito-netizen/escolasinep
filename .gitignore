@@ -1,0 +1,40 @@
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Node utils
+node_modules/
+
+# Arquivos Python compilados
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Banco de dados local (SQLite)
+db.sqlite3
+
+# Arquivos temporários
+*.log
+*.pot
+*.pyc
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# Configurações locais
+.env
+
+# Cache do Django
+/static/
+media/
+
+# IDEs / editores
+.vscode/
+.idea/
+*.swp
+
+.env
+.start_prod.sh.swp
+start_prod.sh
