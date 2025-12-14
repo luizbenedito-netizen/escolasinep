@@ -28,6 +28,7 @@ db.sqlite3
 
 # Cache do Django
 media/
+staticfiles/
 # IDEs / editores
 .vscode/
 .idea/
