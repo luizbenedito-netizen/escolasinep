@@ -11,22 +11,19 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# AUTH_USER_MODEL = 'app.Pessoas'
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h_@q^*@4^u_nmphi46)72m)lpvx5+mb7im9=oe=xd_oa#=zti2'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 from decouple import config
 
 DEBUG = False
 
-ALLOWED_HOSTS = [os.environ.get('CLOUDFLARE_HOSTNAME', '')]
-CSRF_TRUSTED_ORIGINS = [f'https://{os.environ.get('CLOUDFLARE_HOSTNAME', '')}']
+ALLOWED_HOSTS = [os.environ['CLOUDFLARE_HOSTNAME']]
+CSRF_TRUSTED_ORIGINS = [f'https://{os.environ['CLOUDFLARE_HOSTNAME']}']
 SECURE_PROXY_SSL_HEADER = ('HTTP_CF_VISITOR', 'https')
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -96,11 +93,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'postgres'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', '123456'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
@@ -176,11 +173,11 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Settings
-FERNET_KEY = config('RECOVERY_KEY', default='')
-RECOVERY_TIME_SECONDS = config('RECOVERY_TIME_SECONDS', default='3600')
+FERNET_KEY = os.environ['RECOVERY_KEY']
+RECOVERY_TIME_SECONDS = os.environ['RECOVERY_TIME_SECONDS']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('RECOVERY_EMAIL_ACCOUNT', default='')
-EMAIL_HOST_PASSWORD = config('RECOVERY_EMAIL_PASSWORD', default='')
+EMAIL_HOST_USER = os.environ['RECOVERY_EMAIL_ACCOUNT']
+EMAIL_HOST_PASSWORD = os.environ['RECOVERY_EMAIL_PASSWORD']

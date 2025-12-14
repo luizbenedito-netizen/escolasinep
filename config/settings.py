@@ -11,9 +11,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# AUTH_USER_MODEL = 'app.Pessoas'
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -23,17 +20,23 @@ SECRET_KEY = 'django-insecure-h_@q^*@4^u_nmphi46)72m)lpvx5+mb7im9=oe=xd_oa#=zti2
 # SECURITY WARNING: don't run with debug turned on in production!
 from decouple import config
 
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
 if DEBUG:
-    ALLOWED_HOSTS = ['127.0.0.1','localhost']
-    CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000','http://localhost:8000']
+    ALLOWED_HOSTS = [
+        '127.0.0.1',
+        'localhost'
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        'http://127.0.0.1:8000',
+        'http://localhost:8000'
+    ]
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
 else:
-    ALLOWED_HOSTS = [os.environ.get('CLOUDFLARE_HOSTNAME', '')]
-    CSRF_TRUSTED_ORIGINS = [f'https://{os.environ.get('CLOUDFLARE_HOSTNAME', '')}']
+    ALLOWED_HOSTS = [os.environ['HOSTNAME']]
+    CSRF_TRUSTED_ORIGINS = [f'https://{os.environ['HOSTNAME']}']
     SECURE_PROXY_SSL_HEADER = ('HTTP_CF_VISITOR', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -183,11 +186,11 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Settings
-FERNET_KEY = config('RECOVERY_KEY', default='')
-RECOVERY_TIME_SECONDS = config('RECOVERY_TIME_SECONDS', default='3600')
+FERNET_KEY = os.environ.get('RECOVERY_KEY', default='rBN6BbCiPXXgm9x5COeB0EF6To9LtimLwHKgLf0LbCI=')
+RECOVERY_TIME_SECONDS = os.environ.get('RECOVERY_TIME_SECONDS', default='3600')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('RECOVERY_EMAIL_ACCOUNT', default='')
-EMAIL_HOST_PASSWORD = config('RECOVERY_EMAIL_PASSWORD', default='')
+EMAIL_HOST_USER = os.environ.get('RECOVERY_EMAIL_ACCOUNT', default='')
+EMAIL_HOST_PASSWORD = os.environ.get('RECOVERY_EMAIL_PASSWORD', default='')
