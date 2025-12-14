@@ -35,5 +35,3 @@ staticfiles/
 *.swp
 
 .env
-.start_prod.sh.swp
-start_prod.sh

@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16
+    container_name: escolasinep_db
+    restart: unless-stopped
+    ports:
+      - "81:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    container_name: escolasinep_web
+    restart: unless-stopped
+    ports:
+      - "80:8000"
+    volumes:
+      - /home/samuel/Projetos/escolasinep:/app
+    environment:
+      DJANGO_SETTINGS_MODULE: config.production
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      CLOUDFLARE_TUNNEL_TOKEN: ${CLOUDFLARE_TOKEN}
+      CLOUDFLARE_HOSTNAME: ${HOSTNAME}
+      AUTO_RELOAD: "false"
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
