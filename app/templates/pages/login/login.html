@@ -1,0 +1,64 @@
+{% extends 'layouts/login.html' %}
+
+{% block title %}
+Entrar
+{% endblock %}
+
+{% block content %}
+<form class="flex flex-col gap-4 w-full" method="POST">
+    {% csrf_token %}
+    <div class="mb-6 w-full">
+        <label for="usuario" class="block mb-2 text-base font-medium text-gray-900 light:text-white">Usuário</label>
+        <input type="text" name="usuario" id="usuario" maxlength="100"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-cyan-900 focus:border-cyan-900 block w-full p-3 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+            required placeholder="Seu usuario" />
+    </div>
+    <div class="mb-6 w-full">
+        <label for="senha" class="block mb-2 text-base font-medium text-gray-900 light:text-white">
+            Senha
+        </label>
+
+        <div class="relative">
+            <input type="password" id="senha" name="senha" minlength="12" maxlength="100" class="bg-gray-50 border border-gray-300 text-gray-900 text-base 
+             rounded-lg focus:ring-cyan-900 focus:border-cyan-900 
+             block w-full p-3 pr-12" placeholder="Sua senha" />
+            <button type="button" onclick="togglePassword()"
+                class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600 cursor-pointer rounded-r-lg border-l border-gray-300">
+                <span class="icon-[mdi--eye-closed] w-6 h-6 text-body" id="icon-eye-off"></span>
+                <span class="icon-[mdi--eye] w-6 h-6 text-body hidden" id="icon-eye"></span>
+            </button>
+        </div>
+    </div>
+    <div class="flex justify-between mb-5">
+        <div class="flex items-start">
+            <div class="flex items-center h-5">
+                <input id="lembrar" type="checkbox" value="" name="lembrar"
+                    class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 light:bg-gray-600 light:border-gray-500 light:focus:ring-blue-600 light:ring-offset-gray-800 light:focus:ring-offset-gray-800" />
+            </div>
+            <label for="lembrar" class="ms-2 text-sm font-medium text-gray-900 light:text-gray-300">Manter
+                Sessão</label>
+        </div>
+        <a href="/login/esquecisenha" class="text-sm text-cyan-900 hover:underline light:text-blue-500">Esqueci minha
+            senha</a>
+    </div>
+    <button type="submit"
+        class="text-white bg-cyan-900 hover:bg-cyan-950 focus:ring-4 focus:outline-none font-medium rounded-lg text-base w-full px-6 py-3 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800 cursor-pointer">
+        Entrar
+    </button>
+</form>
+{% if messages %}
+<div class="mt-4 text-center">
+    {% for message in messages %}
+    {% if "error" in message.tags %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-2">
+        {{ message }}
+    </div>
+    {% elif "success" in message.tags %}
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-2">
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
