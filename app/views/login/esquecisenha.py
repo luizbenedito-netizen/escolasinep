@@ -34,11 +34,9 @@ class EsqueciSenhaView(View):
                     subject = 'Link de Reativação'
                     from_email = settings.EMAIL_HOST_USER
                     to = [user.email]
-                    # to = ['luiz.benedito@alunos.ifsuldeminas.edu.br']
                     
-                    html_content = render_to_string("email/recuperacao.html", {
-                        "link": f"http://127.0.0.1:8000/login/esquecisenha/{token}"
-                    })
+                    link = f"{settings.SITE_PROTOCOL}://{settings.SITE_HOST}/login/esquecisenha/{token}"
+                    html_content = render_to_string("email/recuperacao.html", { "link": link })
 
                     msg = EmailMultiAlternatives(subject, html_content, from_email, to)
                     msg.attach_alternative(html_content, "text/html")

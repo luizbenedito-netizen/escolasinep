@@ -4,7 +4,7 @@ services:
     container_name: escolasinep_db
     restart: unless-stopped
     ports:
-      - "81:5432"
+      - "82:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -17,7 +17,7 @@ services:
     container_name: escolasinep_web
     restart: unless-stopped
     ports:
-      - "80:8000"
+      - "81:8000"
     volumes:
       - /home/samuel/Projetos/escolasinep:/app
     environment:

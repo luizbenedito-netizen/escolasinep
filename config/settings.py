@@ -22,24 +22,38 @@ from decouple import config
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
+HOSTNAME = os.environ.get('HOSTNAME', '').strip()
+
 if DEBUG:
-    ALLOWED_HOSTS = [
-        '127.0.0.1',
-        'localhost'
-    ]
+    SITE_HOST = HOSTNAME if HOSTNAME else 'localhost'
+    SITE_PROTOCOL = 'http'
+
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    if HOSTNAME:
+        ALLOWED_HOSTS.append(HOSTNAME)
+
     CSRF_TRUSTED_ORIGINS = [
-        'http://127.0.0.1:8000',
-        'http://localhost:8000'
+        '{SITE_PROTOCOL}://127.0.0.1:8000',
+        '{SITE_PROTOCOL}://localhost:8000',
     ]
+    if HOSTNAME:
+        CSRF_TRUSTED_ORIGINS.append(f'{SITE_PROTOCOL}://{HOSTNAME}')
+
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+
 else:
-    ALLOWED_HOSTS = [os.environ['HOSTNAME']]
-    CSRF_TRUSTED_ORIGINS = [f'https://{os.environ['HOSTNAME']}']
+    SITE_HOST = HOSTNAME
+    SITE_PROTOCOL = 'https'
+
+    ALLOWED_HOSTS = [HOSTNAME]
+    CSRF_TRUSTED_ORIGINS = [f'{SITE_PROTOCOL}://{HOSTNAME}']
+
     SECURE_PROXY_SSL_HEADER = ('HTTP_CF_VISITOR', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True

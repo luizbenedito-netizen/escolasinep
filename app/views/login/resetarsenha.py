@@ -20,8 +20,6 @@ class ResetarSenhaView(View):
         token = self.kwargs.get('token')
         ttl = int(getattr(settings, "RECOVERY_TIME_SECONDS", 0))
         
-        print(ttl, token)
-        
         payload = traduzir_token(token, ttl=ttl)
 
         if not payload:
@@ -33,11 +31,11 @@ class ResetarSenhaView(View):
             messages.error(request, "Esse link não funciona mais.")
             return (None, False)
 
-        # try:
-        user = CadUsuarios.objects.get(idusuario=idusuario)
-        # except CadUsuarios.DoesNotExist:
-        #     messages.error(request, "Usuário inválido.")
-        #     return (None, False)
+        try:
+            user = CadUsuarios.objects.get(idusuario=idusuario)
+        except CadUsuarios.DoesNotExist:
+            messages.error(request, "Usuário inválido.")
+            return (None, False)
 
         if user.tokensenha != token:
             messages.error(request, "Esse link não funciona mais.")
